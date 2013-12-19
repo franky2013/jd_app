@@ -1,4 +1,6 @@
 <?php
 echo "hello world";
-    echo "Welcome to PHP world";
+    $a = substr('sfslafs',1,34);
+    echo $a;exit;
+    slfjsljf;
 ?>
