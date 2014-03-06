@@ -1,0 +1,35 @@
+ 
+ class test{
+ 
+ private $a = 'FizzBuzz';
+ preivate $b ;
+ 
+ public function __consturct($a,$b){
+  $this->a = $a;
+  $this->b = $b;
+  }
+ public function FizzBuzz (){
+
+    if($this->a % $this->b == 0){
+      swith($this->b){
+         case 3:
+         return 'Fizz';
+         break;
+         
+         case 5: 
+         return 'Buzz';
+         break ;
+         
+         case 15：
+         return 'FizzBuzz';
+         break;
+         
+         default:
+         return $this->b;
+         break;
+    }else{
+          return $this->b;
+    }
+  }
+    
+}
