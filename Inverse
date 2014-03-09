@@ -1,0 +1,139 @@
+
+class InverseFizzBuzz {
+ 
+    private $list;
+    private $max = 100; //扫描最大值
+ 
+    public function __construct($list) {
+        $this->list = $list;
+    }
+ 
+    /**
+     * 查找序列
+     * 思路：遍历1-max，分别遍历字符数组，找到fizz或buzz，放到散列结果中保存；补全散列结果得到连续结果序列；找到结果长度最短的
+     * Enter description here ...
+     */
+    public function sequence() {
+        $resultList = array(); //结果集
+ 
+        //遍历1-max
+        for($i = 1; $i <= $this->max; $i++){
+            $resultHash = array(); //结果散列
+            $result = array(); //结果序列之一
+            $last = $i; //上一个扫描结果
+            $isFull = true; //标记是否找到完整序列
+ 
+            //查找fizz或buzz
+            foreach($this->list as $k => $v){
+                $index = $i; //索引
+ 
+                switch($v){
+                    case 'fizz':{
+                        $index = $this->_scanNextFizz($last);
+ 
+                        if ($index){ //找到fizz
+                            array_push($resultHash, $index);
+                            $last = $index;
+                        }else{ //未找到fizz
+                            $isFull = false;
+                            $last++;
+                        }
+ 
+                        break;
+                    }
+                    case 'buzz':{
+                        $index = $this->_scanNextBuzz($last);
+                             
+                        if ($index){ //找到buzz
+                            array_push($resultHash, $index);
+                            $last = $index;
+                        }else{ //未找到buzz
+                            $isFull = false;
+                            $last++;
+                        }
+ 
+                        break;
+                    }
+                    default:{
+                        break;
+                    }
+ 
+                }
+            }
+ 
+            //填充数字间隔，不完整序列不填充
+            if ($resultHash && $isFull){
+                $time = count($resultHash) - 1; //循环终止下标
+                for($j = $resultHash[0]; $j <= $resultHash[$time]; $j++){
+                    array_push($result, $j);
+                }
+                array_push($resultList, $result);
+            }
+ 
+ 
+        }
+ 
+        //判断是否存在结果（例如  buzz fizz buzz）
+        if (count($resultList) == 0){
+            return null;
+        }
+ 
+        //查找最短结果
+        $count = $this->max;
+        foreach ($resultList as $v){
+            $length = count($v);
+            if ($length < $count){
+                $count = $length;
+                $result = $v;
+            }
+        }
+ 
+        return $result;
+    }
+ 
+    /**
+     * 查找下一个Fizz
+     *
+     * Enter description here ...
+     * @param unknown_type $current
+     */
+    private function _scanNextFizz($current){
+        for($i = $current + 1; $i <= $this->max; $i++){
+ 
+            if($i % 5 == 0){ //上次结果与今次结果之间不能有buzz
+                return 0;
+            }
+ 
+            if($i % 3 == 0){
+                return $i;
+            }
+        }
+        return 0;
+    }
+ 
+    /**
+     * 查找下一个Buzz
+     *
+     * Enter description here ...
+     * @param unknown_type $current
+     */
+    private function _scanNextBuzz($current){
+        for($i = $current + 1; $i <= $this->max; $i++){
+ 
+            if($i % 3 == 0){ //上次结果与今次结果之间不能有fizz
+                return 0;
+            }
+ 
+            if($i % 5 == 0){
+                return $i;
+            }
+        }
+        return 0;
+    }
+ 
+}
+ 
+ 
+//测试
+$inverse = new InverseFizzBuzz(array('fizz', 'buzz', 'fizz')); //3 4 5 6
+var_dump($inverse->sequence());
